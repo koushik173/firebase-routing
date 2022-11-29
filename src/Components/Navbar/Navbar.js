@@ -1,3 +1,4 @@
+import { getAuth, signOut } from 'firebase/auth';
 import { Button } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -6,8 +7,12 @@ import { Link } from 'react-router-dom';
 import useFirebase from '../../Hooks/useFirebase';
 import './Navbar.css'
 
+import app from '../../firebase.init';
+const auth = getAuth(app)
+
 function NavScrollExample() {
   const {user,handleSignOut} = useFirebase()
+
   return (
     <div className='navContainer'>
     <Navbar bg="light" expand="sm">
@@ -25,9 +30,9 @@ function NavScrollExample() {
                 <Link to="/product">Products</Link>
                 <Link to="/order">Order</Link>
                 <Link to="/register">Register</Link>
-                <Link><span>{user?.displayName && user.displayName}</span></Link>
+                <Link to="/"><span>{user?.displayName && user.displayName}</span></Link>
                 {
-                  user?.uid? <Link to="/login"> <Button onClick={handleSignOut}>sign out</Button> </Link>:
+                  user?.uid? <Link to="/login"> <Button onClick={()=>signOut(auth)}>sign out</Button> </Link>:
                   <Link to="/login">Login</Link>
                 }
             </Nav>

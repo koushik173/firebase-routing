@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import './Register.css'
-import { GoogleAuthProvider } from "firebase/auth";
+import { getAuth } from 'firebase/auth';
+import app from '../../firebase.init';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
-
+const auth = getAuth(app)
 
 const Register = () => {
   const [validated, setValidated] = useState(false);
+  const [user] = useAuthState(auth)
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -19,6 +22,7 @@ const Register = () => {
     setValidated(true);
   };
     return (
+      user?<p>u already sing in</p>:
     <Form className='register-area' noValidate validated={validated} onSubmit={handleSubmit}>
       <h2>Registration</h2><br />
 
